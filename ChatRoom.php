@@ -6,18 +6,18 @@
  * @license MIT
  */
 
-namespace sintret\chat;
+namespace soareseneves\chat;
 
 use Yii;
 use yii\base\Widget;
-use sintret\chat\models\Chat;
+use soareseneves\chat\models\Chat;
 
 /**
  * @author Andy Fitria <sintret@gmail.com>
  */
 class ChatRoom extends Widget {
 
-    public $sourcePath = '@vendor/sintret/yii2-chat-adminlte/assets';
+    public $sourcePath = '@vendor/soareseneves/yii2-chat-adminlte/assets';
     public $css = [
     ];
     public $js = [ // Configured conditionally (source/minified) during init()
