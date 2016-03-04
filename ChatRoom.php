@@ -46,8 +46,8 @@ class ChatRoom extends Widget {
         }
 
         $this->model->userField = $this->userField;
-        Yii::$app->assetManager->publish("@vendor/sintret/yii2-chat-adminlte/assets/img/loadingAnimation.gif");
-        $this->loadingImage = Yii::$app->assetManager->getPublishedUrl("@vendor/sintret/yii2-chat-adminlte/assets/img/loadingAnimation.gif");
+        Yii::$app->assetManager->publish("@vendor/soareseneves/yii2-chat-adminlte/assets/img/loadingAnimation.gif");
+        $this->loadingImage = Yii::$app->assetManager->getPublishedUrl("@vendor/soareseneves/yii2-chat-adminlte/assets/img/loadingAnimation.gif");
 
         parent::init();
     }
@@ -78,7 +78,7 @@ class ChatRoom extends Widget {
         else
             $userModel = Yii::$app->getUser()->identityClass;
 
-        $model = new \sintret\chat\models\Chat;
+        $model = new \soareseneves\chat\models\Chat;
         $model->userModel = $userModel;
         if ($userField)
             $model->userField = $userField;
