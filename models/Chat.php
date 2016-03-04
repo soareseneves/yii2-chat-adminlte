@@ -72,7 +72,7 @@ class Chat extends \yii\db\ActiveRecord {
                 if (isset($model->user->$userField)) {
                     $avatar = $model->user->$userField;
                 } else{
-                    $avatar = Yii::$app->assetManager->getPublishedUrl("@vendor/sintret/yii2-chat-adminlte/assets/img/avatar.png");
+                    $avatar = Yii::$app->assetManager->getPublishedUrl("@vendor/soareseneves/yii2-chat-adminlte/assets/img/avatar.png");
                 }
                     
                 $output .= '<div class="item">
