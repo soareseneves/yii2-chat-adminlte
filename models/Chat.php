@@ -1,6 +1,6 @@
 <?php
 
-namespace sintret\chat\models;
+namespace soareseneves\chat\models;
 
 use Yii;
 
