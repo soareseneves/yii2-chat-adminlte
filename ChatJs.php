@@ -6,7 +6,7 @@
  * @license MIT
  */
 
-namespace sintret\chat;
+namespace soareseneves\chat;
 
 use Yii;
 use yii\web\AssetBundle;
@@ -16,7 +16,7 @@ use yii\web\AssetBundle;
  */
 class ChatJs extends AssetBundle {
 
-    public $sourcePath = '@vendor/sintret/yii2-chat-adminlte/assets';
+    public $sourcePath = '@vendor/soareseneves/yii2-chat-adminlte/assets';
     public $js = [
         'js/chat.js',
     ];
