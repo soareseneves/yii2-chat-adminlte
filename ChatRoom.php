@@ -11,6 +11,7 @@ namespace soareseneves\chat;
 use Yii;
 use yii\base\Widget;
 use soareseneves\chat\models\Chat;
+use app\components\UserOptions;
 
 /**
  * @author Andy Fitria <sintret@gmail.com>
@@ -34,6 +35,7 @@ class ChatRoom extends Widget {
     public $loadingImage;
 
     public function init() {
+        $this->js = UserOptions::get('chat_closed') ? array() : array('js/chat.js');
         $this->model = new Chat();
         if ($this->userModel === NULL) {
             $this->userModel = Yii::$app->getUser()->identityClass;
@@ -59,16 +61,19 @@ class ChatRoom extends Widget {
         $model->userModel = $this->userModel;
         $model->userField = $this->userField;
         $data = $model->data();
+
         return $this->render('index', [
-                    'data' => $data,
+                    'data' => $data['data'],
                     'url' => $this->url,
                     'userModel' => $this->userModel,
                     'userField' => $this->userField,
-                    'loading' => $this->loadingImage
+                    'loading' => $this->loadingImage,
+                    'pages' => $data['pages'],
         ]);
     }
 
     public static function sendChat($post) {
+        //die(print_r($post));
         if (isset($post['message']))
             $message = $post['message'];
         if (isset($post['userfield']))
@@ -77,6 +82,10 @@ class ChatRoom extends Widget {
             $userModel = $post['model'];
         else
             $userModel = Yii::$app->getUser()->identityClass;
+        if (isset($post['page']))
+            $num = $post['page'];
+        else
+            $num = 1;
 
         $model = new \soareseneves\chat\models\Chat;
         $model->userModel = $userModel;
@@ -88,13 +97,13 @@ class ChatRoom extends Widget {
             $model->userId = Yii::$app->user->id;
 
             if ($model->save()) {
-                echo $model->data();
+                echo $model->data($num)['data'];
             } else {
                 print_r($model->getErrors());
                 exit(0);
             }
         } else {
-            echo $model->data();
+            echo $model->data($num)['data'];
         }
     }
 

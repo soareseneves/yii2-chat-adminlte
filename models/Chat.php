@@ -3,6 +3,7 @@
 namespace soareseneves\chat\models;
 
 use Yii;
+use yii\data\Pagination;
 
 /**
  * This is the model class for table "chat".
@@ -59,14 +60,37 @@ class Chat extends \yii\db\ActiveRecord {
         return parent::beforeSave($insert);
     }
 
-    public static function records() {
-        return static::find()->orderBy('id desc')->limit(10)->all();
+    public static function records($num = 1) {
+        $query = static::find()->orderBy('id desc');
+        $countQuery = clone $query;
+        $pages = new Pagination(['totalCount' => $countQuery->count(), 'pageSize' => '8']);
+
+        //die('page: ' . $num);
+        if ($num > 1){
+            $pages->setPage($num);
+            $offset = 1;
+            $limit = $pages->limit * $num;
+        } else {
+            $offset = $pages->offset;
+            $limit = $pages->limit;
+        }
+
+        $models = $query->offset($offset)
+            ->limit($limit)
+            ->all();
+
+
+        $result = ['data' => $models, 'pages' => $pages];
+
+        return $result;
     }
 
-    public function data() {
+    public function data($num = 1) {
         $userField = $this->userField;
         $output = '';
-        $models = Chat::records();
+        $data = Chat::records($num);
+        $pages = $data['pages'];
+        $models = $data['data'];
         if ($models)
             foreach ($models as $model) {
                 if (isset($model->user->$userField)) {
@@ -75,19 +99,21 @@ class Chat extends \yii\db\ActiveRecord {
                     $avatar = Yii::$app->assetManager->getPublishedUrl("@vendor/soareseneves/yii2-chat-adminlte/assets/img/avatar.png");
                 }
                     
-                $output .= '<div class="item">
-                <img class="online" alt="user image" src="' . $avatar . '">
-                <p class="message">
-                    <a class="name" href="#">
-                        <small class="text-muted pull-right" style="color:green"><i class="fa fa-clock-o"></i> ' . \kartik\helpers\Enum::timeElapsed($model->updateDate) . '</small>
-                        ' . $model->user->username . '
-                    </a>
-                   ' . $model->message . '
-                </p>
-            </div>';
+                $output .= '<div class="direct-chat-msg left">
+                    <div class="direct-chat-info clearfix">
+                  <span class="direct-chat-name pull-left">' . $model->user->username . '</span>
+                  <span class="direct-chat-timestamp pull-right">' . \kartik\helpers\Enum::timeElapsed($model->updateDate) . '</span>
+                </div>
+                <img class="direct-chat-img" src="' . $avatar . '" alt="message user image">
+                <div class="direct-chat-text">
+                ' . $model->message . '
+                </div>
+                </div>';
             }
 
-        return $output;
+        $result = ['data' => $output, 'pages' => $pages];
+
+        return $result;
     }
 
 }

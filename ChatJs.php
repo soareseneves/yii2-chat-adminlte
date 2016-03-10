@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @link https://github.com/sintret/yii2-chat-adminlte
+ * @link https://github.com/soareseneves/yii2-chat-adminlte
  * @copyright Copyright (c) 2014 Andy fitria 
  * @license MIT
  */
